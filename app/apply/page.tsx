@@ -8,11 +8,14 @@ const Page = () => {
         Application is in three phases -:
       </h3>
       <ul className='list-decimal text-sm lg:text-base px-5 space-y-4 list-inside'>
-        <li>Fill in the form below to apply</li>
         <li>
-          Successful apllicants would be emailed and invited for a trivia game
-          about the cryptocurrency market and blockchain (One Wallet address per
-          application).
+          Fill in the form below to apply ( One Wallet address per application
+          ).
+        </li>
+        <li>
+          Successful apllicants would be emailed and invited for an interactive
+          session about security awareness in the cryptocurrency market and
+          blockchain
         </li>
         <li>
           Game winners would be asked to fill in wallet address and claim their
@@ -25,7 +28,7 @@ const Page = () => {
       <h3 className='text-base'>
         Only successful applicants would be contacted
       </h3>
-      <div>
+      <div className='px-4'>
         <ContactMe />
       </div>
     </div>

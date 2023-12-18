@@ -5,7 +5,7 @@ import { BsTelephoneFill } from "react-icons/bs";
 import { IoMdSend } from "react-icons/io";
 import { ScaleLoader } from "react-spinners";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import axios from "axios";
 import { baseUrl } from "../config";
 import { motion } from "framer-motion";
@@ -19,6 +19,8 @@ const ContactMe = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(null);
+  const [emailError, setEmailError] = useState("");
+  const [walletError, setWalletError] = useState("");
   // New state variable for the generated string
   const [generatedString, setGeneratedString] = useState("");
   const router = useRouter();
@@ -35,11 +37,36 @@ const ContactMe = () => {
     setGeneratedString(result);
   };
 
-  const disableButton = name == " " || email == "" || country == "";
+  const disableButton = wallet == " " || email == "" || generatedString == "";
   //   const handleCaptchaChange = (value: any) => {
   //     // value will be null if the user fails the captcha challenge
   //     setIsCaptchaVerified(value !== null);
   //   };
+  // Validate email on any input change
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+
+    // Clear previous error message
+    setEmailError("");
+
+    // Validate email
+    if (!e.target.value || !/^\S+@\S+\.\S+$/.test(e.target.value)) {
+      setEmailError("Please enter a valid email address.");
+    }
+  };
+  // Validate wallet on any input change
+  const handleWalletChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setWallet(e.target.value);
+
+    // Clear previous error message
+    setWalletError("");
+
+    // Validate wallet (add your wallet validation logic here)
+    if (!e.target.value) {
+      setWalletError("Wallet address is required.");
+    }
+  };
+
   const handleSubmit = async () => {
     setIsLoading(true);
     // if (isCaptchaVerified) {
@@ -87,6 +114,7 @@ const ContactMe = () => {
 
   const seekPermission = async () => {
     const res = await navigator.clipboard.readText();
+    alert("Application Id generated ");
     console.log(res);
   };
 
@@ -145,8 +173,9 @@ const ContactMe = () => {
         {/* New input field for the generated string */}
         <div className='flex justify-between'>
           <input
-            placeholder='Unique Id'
+            placeholder='Application Id*'
             type='text'
+            required
             value={generatedString}
             readOnly
             className='w-[48%] outline-none border border-b-gray-300 rounded-sm py-2 px-2'
@@ -164,7 +193,7 @@ const ContactMe = () => {
         </div>
         <div className='flex justify-between'>
           <input
-            placeholder='Name*'
+            placeholder='Name'
             name='name'
             type='text'
             required
@@ -191,28 +220,26 @@ const ContactMe = () => {
             name='email'
             type='email'
             required
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
+            onChange={handleEmailChange}
             className='w-[48%]  outline-none border border-b-gray-300 rounded-sm py-2 px-2'
           />
+          {emailError && <p className='text-red-500'>{emailError}</p>}
         </div>
-        <div className='flex justify-between'>
+        <div className='flex flex-col'>
           <input
             placeholder='Wallet address'
             name='Job'
             type='text'
             required
-            onChange={(e) => {
-              setWallet(e.target.value);
-            }}
+            onChange={handleWalletChange}
             className='w-full outline-none border border-b-gray-300  py-3 px-2'
           />
+          {walletError && <p className='text-red-500'>{walletError}</p>}
         </div>
 
         <div className='flex justify-between'>
           <input
-            placeholder='City/Country*'
+            placeholder='City/Country'
             name='City'
             type='text'
             required
