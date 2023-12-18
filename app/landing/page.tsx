@@ -1,10 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Lottie from "lottie-react";
-import ContactMe from "@/components/Contact";
-import ScreenRecorder from "@/components/ScreenRecorder";
-import Loader from "@/components/Loader";
 import { useRouter } from "next/navigation";
 import { easeInOut, motion } from "framer-motion";
 
