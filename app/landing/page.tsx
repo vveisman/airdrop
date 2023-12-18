@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { easeInOut, motion } from "framer-motion";
 
 const numbersArray = Array.from({ length: 500 }, (_, index) => index + 1);
-export const bp = (size: number, index: number) => {
+const bp = (size: number, index: number) => {
   return (
     <div
       key={index.toString()}
