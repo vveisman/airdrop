@@ -15,7 +15,7 @@ export default function Loader() {
     setTimeout(() => {
       router.push("/home");
     }, 3000);
-  }, []);
+  }, [router]);
   // let [loading, setLoading] = useState(true);
 
   return (

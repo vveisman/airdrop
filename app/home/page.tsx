@@ -5,17 +5,15 @@ import { useRouter } from "next/navigation";
 import { easeInOut, motion } from "framer-motion";
 
 const numbersArray = Array.from({ length: 500 }, (_, index) => index + 1);
-
+const bp = (index: number) => (
+  <div
+    key={index.toString()}
+    className='mr-2 bg-[#4a527dff] dots mb-10 opacity-80 rounded-full animate-bounce'
+  />
+);
 const Page = () => {
   const router = useRouter();
-  const bp = React.useMemo(() => {
-    return (index: number) => (
-      <div
-        key={index.toString()}
-        className='mr-2 bg-[#4a527dff] dots mb-10 opacity-80 rounded-full animate-bounce'
-      />
-    );
-  }, []);
+
   return (
     <div className='relative overflow-hidden top-[0vh]'>
       <section className='flex  flex-col  pt-[10vh] lg:pt-[2vh] md:flex-row justify-start md:justify-around items-center lg:items-start h-[93vh]'>
