@@ -2,7 +2,7 @@
 import { FaLocationDot } from "react-icons/fa6";
 import { AiOutlineMail } from "react-icons/ai";
 import { BsTelephoneFill } from "react-icons/bs";
-import { IoMdSend } from "react-icons/io";
+import { IoIosClose, IoMdSend } from "react-icons/io";
 import { ScaleLoader } from "react-spinners";
 
 import { ChangeEvent, useState } from "react";
@@ -19,6 +19,7 @@ const ContactMe = () => {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(null);
+  const [error, setError] = useState(null);
   const [emailError, setEmailError] = useState("");
   const [walletError, setWalletError] = useState("");
   // New state variable for the generated string
@@ -54,16 +55,20 @@ const ContactMe = () => {
       setEmailError("Please enter a valid email address.");
     }
   };
-  // Validate wallet on any input change
   const handleWalletChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setWallet(e.target.value);
+    const walletAddress = e.target.value;
 
-    // Clear previous error message
-    setWalletError("");
+    setWallet(walletAddress);
+    setWalletError(""); // Clear previous error message
 
-    // Validate wallet (add your wallet validation logic here)
-    if (!e.target.value) {
+    // Define a regular expression for cryptocurrency wallet addresses
+    const walletAddressRegex = /^[a-zA-Z0-9]{27,35}$/;
+
+    // Validate wallet address
+    if (!walletAddress) {
       setWalletError("Wallet address is required.");
+    } else if (!walletAddressRegex.test(walletAddress)) {
+      setWalletError("Please enter a valid wallet address.");
     }
   };
 
@@ -127,8 +132,10 @@ const ContactMe = () => {
         console.log("Form submitted!", res);
       }
       setIsLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      setError(error?.response.data.message);
+      setIsLoading(false);
     }
     // } else {
     //   // Display an error message or prevent form submission
@@ -160,7 +167,7 @@ const ContactMe = () => {
       </div>
     );
   }
-  if (submitted) {
+  if (submitted || error) {
     return (
       <div
         className={`text-black top-0 flex items-center justify-center left-0 w-screen h-full`}
@@ -171,8 +178,19 @@ const ContactMe = () => {
           exit={{ width: "0%" }}
           className='bg-white rounded-md shadow-sm shadow-slate-900 py-2 z-20 relative  flex flex-col items-center justify-center w-[55vw] h-[200px]'
         >
-          <p className='text-slate-900 text-base animate-pulse'>{submitted}</p>
-          ✅
+          <p className='text-slate-900 text-base animate-pulse'>
+            {submitted || error}
+          </p>
+          {submitted ? "✅" : "📛"}
+          <div
+            className='absolute scale-150 cursor-pointer top-3 right-3'
+            onClick={() => {
+              setSubmitted(null);
+              setError(null);
+            }}
+          >
+            <IoIosClose />
+          </div>
         </motion.div>
       </div>
     );
@@ -253,7 +271,7 @@ const ContactMe = () => {
             onChange={handleEmailChange}
             className='w-[48%]  outline-none border border-b-gray-300 rounded-sm py-2 px-2'
           />
-          {emailError && <p className='text-red-500'>{emailError}</p>}
+          {emailError && <p className='text-xs text-red-500'>{emailError}</p>}
         </div>
         <div className='flex flex-col'>
           <input
@@ -264,7 +282,7 @@ const ContactMe = () => {
             onChange={handleWalletChange}
             className='w-full outline-none border border-b-gray-300  py-3 px-2'
           />
-          {walletError && <p className='text-red-500'>{walletError}</p>}
+          {walletError && <p className='text-xs text-red-500'>{walletError}</p>}
         </div>
 
         <div className='flex justify-between'>

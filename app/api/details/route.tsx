@@ -8,6 +8,16 @@ async function create(request: Request) {
     const client = await clientPromise;
     const db = client.db("Details");
 
+    const existingWallet = await db
+      .collection("info")
+      .findOne({ wallet: body?.wallet });
+    if (existingWallet) {
+      return Response.json(
+        { message: "Wallet address has already applied📜" },
+        { status: 500 }
+      );
+    }
+
     await db.collection("info").insertOne(body);
     console.log("Contact details:", body);
 
