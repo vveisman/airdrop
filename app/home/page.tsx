@@ -1,26 +1,21 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { easeInOut, motion } from "framer-motion";
 
 const numbersArray = Array.from({ length: 500 }, (_, index) => index + 1);
-const bp = (size: number, index: number) => {
-  return (
-    <div
-      key={index.toString()}
-      className='mr-2 bg-[#4a527dff] mb-10 opacity-80 rounded-full animate-bounce'
-      style={{
-        color: "var(--binance_white)",
-        backdropFilter: "blur(20px)",
-        width: size,
-        height: size,
-      }}
-    />
-  );
-};
+
 const Page = () => {
   const router = useRouter();
+  const bp = React.useMemo(() => {
+    return (index: number) => (
+      <div
+        key={index.toString()}
+        className='mr-2 bg-[#4a527dff] dots mb-10 opacity-80 rounded-full animate-bounce'
+      />
+    );
+  }, []);
   return (
     <div className='relative overflow-hidden top-[0vh]'>
       <section className='flex  flex-col  pt-[10vh] lg:pt-[2vh] md:flex-row justify-start md:justify-around items-center lg:items-start h-[93vh]'>
@@ -38,19 +33,20 @@ const Page = () => {
           }}
           className='absolute mx-auto -z-10  self-cente  top-0  gap-32 w-[97vw]  h-full'
         >
-          {numbersArray.map((params) => bp(3, params))}
+          {numbersArray.map((params) => bp(params))}
         </div>
         <Image
           src={"/logs.svg"}
           fill
-          priority
+          // priority
+          loading='lazy'
           className='absolute -z-20 opacity-5'
           alt='btc'
         />
         <div className=' h-[40vh] lg:h-[50vh]  flex flex-col space-y-7 justify-start lg:justify-center'>
           <div className='flex items-center justify-start'>
             <div className='lg:w-[2vw] w-[7vw] h-[7vw] mr-3 relative lg:h-[2vw]'>
-              <Image src={"logs.svg"} fill className='' alt='btc' />
+              <Image src={"logs.svg"} fill priority className='' alt='btc' />
             </div>
             <p className='text-white w-[35vw] lg:w-[12vw] text-sm font-light flex flex-col '>
               The best cryptoexchange launched in 2018
@@ -65,7 +61,7 @@ const Page = () => {
             onClick={() => {
               router.push("/apply");
             }}
-            className='uppercase active:scale-75 cursor-pointer hover:scale-110 hover:opacity-90 px-[3vw] py-[1vh] text-white hover:bg-orange-700 duration-100 transition-all ease-in rounded-sm  bg-[#F5A623]'
+            className='uppercase active:scale-75 cursor-pointer hover:scale-110 hover:opacity-90 px-[3vw] py-[1vh] text-white hover:bg-orange-700 duration-150 transition-all ease-in rounded-sm  bg-[#F5A623]'
           >
             Apply Now
           </button>
@@ -87,20 +83,17 @@ const Page = () => {
             <Image
               src={"/logo.png"}
               fill
+              priority
               className='hover:rotate-[360deg] duration-500 hover:cursor-pointer'
               alt='btc'
             />
           </motion.div>
           <h4 className=' text-xl text-slate-100'>
-            50 <span className='text-[#f5a623ff]'>BTC</span> for 1000 lucky
-            people
+            100 <span className='text-[#f5a623ff]'>BTC</span> prize pool
           </h4>
-          <p className='text-slate-50 text-3xl'>Hurrry!!</p>
+          <p className='text-slate-50 text-3xl'>Hurrry!! to claim yours</p>
         </div>
       </section>
-      {/* <section className='h-[200vh]'>
-        <ContactMe />
-      </section> */}
     </div>
   );
 };

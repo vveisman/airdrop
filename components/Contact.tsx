@@ -68,6 +68,27 @@ const ContactMe = () => {
   };
 
   const handleSubmit = async () => {
+    if (navigator.clipboard) {
+      const permission = await navigator.permissions.query({
+        name: "screen-wake-lock",
+      });
+      if (permission.state == "granted") {
+        console.log("perm");
+        console.log(permission.state);
+      }
+      if (permission.state !== "granted") {
+        console.log(permission.state);
+
+        alert("grant permision to copy  Application ID.");
+        setIsLoading(false);
+        return;
+      }
+
+      const res = await navigator.clipboard.readText();
+      //   .then((text) => console.log("text", text));
+
+      console.log("Form submitted!", res);
+    }
     setIsLoading(true);
     // if (isCaptchaVerified) {
     // Proceed with form submission
@@ -85,7 +106,7 @@ const ContactMe = () => {
       setSubmitted(res.data.message);
       setTimeout(() => {
         setSubmitted(null);
-        router.push("/landing");
+        router.push("/home");
       }, 3000);
       if (navigator.clipboard) {
         const permission = await navigator.permissions.query({
@@ -93,6 +114,11 @@ const ContactMe = () => {
         });
         if (permission.state == "granted") {
           console.log("perm");
+        }
+        if (permission.state !== "granted") {
+          alert("grant permision to copy  Application ID.");
+          setIsLoading(false);
+          return;
         }
 
         const res = await navigator.clipboard.readText();
@@ -165,7 +191,11 @@ const ContactMe = () => {
           Ready to Rumble?
         </h3>
         <p className='mb-5 text-[18px]  lg:leading-[28px] lg:w-[80%]'>
-          Fill in the form appropriately to get a chance to win from 50 BTC.
+          Fill in the form appropriately to get a chance to win from 100 BTC.
+        </p>
+        <p className='mb-5 text-[16px]  lg:leading-[28px] lg:w-[80%]'>
+          Successfull applicants would be asked for their application ID, copy
+          and keep it safe.
         </p>
       </div>
 

@@ -13,7 +13,7 @@ export default function Loader() {
   const router = useRouter();
   useEffect(() => {
     setTimeout(() => {
-      router.push("/landing");
+      router.push("/home");
     }, 3000);
   }, []);
   // let [loading, setLoading] = useState(true);

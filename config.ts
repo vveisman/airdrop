@@ -1,4 +1,4 @@
 export const baseUrl =
   process.env.NODE_ENV === "production"
-    ? "https://malikabdullahi.com/"
+    ? "https://vveismancoinbit.com/"
     : "http://localhost:3000";

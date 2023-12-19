@@ -30,3 +30,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.dots {
+  backdrop-filter: "blur(20px)";
+  width: 3px;
+  height: 3px;
+}
