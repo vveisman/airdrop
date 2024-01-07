@@ -51,8 +51,8 @@ const Page = () => {
             </p>
           </div>
           <h4 className='flex flex-col   text-4xl text-slate-50'>
-            <span>End of Year</span>
-            <span>Festive Giveaway</span>
+            <span>2024</span>
+            <span>Giveaway</span>
             <span>Season</span>
           </h4>
           <button
